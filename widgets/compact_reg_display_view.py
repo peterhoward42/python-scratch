@@ -1,12 +1,18 @@
 from PySide.QtCore import Signal
 from PySide.QtGui import QLabel, QHBoxLayout, QVBoxLayout, QApplication, \
-    QPushButton, QWidget
+    QPushButton, QWidget, QGridLayout
+
+# A Unicode font that supports 'geometric shapes' Unicode block, is installed
+# by default on all versions of Windows, and has an equivalent (yet to be tested)
+# installed on all versions of MacOS by default.
+_LUCIDA_CSS = '* {font-family: Lucida Sans Unicode}'
+
+_SYMBOL_FOR_BIT = {'0': u'\u25CB', '1': u'\u25CF'} # Hollow and solid circles.
 
 class CompactRegdisplay(QVBoxLayout):
 
     edit_requested = Signal(int, int)
 
-    _SYMBOL_FOR_BIT = {'0': '0', '1': '1'} # font troubles - move on
     def __init__(self, reg_bitwidth):
         super(CompactRegdisplay, self).__init__()
         self._reg_bitwidth = reg_bitwidth
@@ -47,26 +53,25 @@ class CompactRegdisplay(QVBoxLayout):
     def _make_bottom_row(self):
         row = QHBoxLayout()
         self._value_as_binary_label = QLabel()
-        self._value_as_binary_label.setStyleSheet(
-            'font-family: "monspaced"')
         row.addWidget(self._value_as_binary_label)
         row.addStretch()
         return row
 
     def _make_remove_btn(self):
-        btn = QPushButton('rm')
-        return btn
+        remove_btn = QLabel(u'\u25CB\u25CF')
+        return remove_btn
 
     def _make_binary_value_string(self, value):
         # todo take into account bit width
         trad = str.format('{:08b}', value)
-        symbols = [self._SYMBOL_FOR_BIT[bit] for bit in trad]
+        symbols = [_SYMBOL_FOR_BIT[bit] for bit in trad]
         return u''.join(symbols)
         return symbols
 
 if __name__ == '__main__':
     app = QApplication(())
-    reg = CompactRegdisplay(8)
+
+    reg = CompactRegdisplay(reg_bitwidth = 8)
     w = QWidget()
     w.setLayout(reg)
     w.show()

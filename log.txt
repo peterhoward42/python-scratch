@@ -1,0 +1,7 @@
+*  prove know how to set font family a different way
+*  prove know how to specify unicode character indie
+*  prove can switch between code 2000 and some other with normal text
+*  see what unicode fonts avail on windows by default
+o  seems lucida sans unicode is fairly std and claims support for geometric shapes
+o  first test font with a/b
+o  now try something from geom shapes page
